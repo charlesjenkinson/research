@@ -1,0 +1,50 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#include        "include/initialConditions"
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField uniform $pressure;
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    //#includeEtc "caseDicts/setConstraintTypes"
+    //Not in publication
+
+    AortaInlet
+    {
+	type            zeroGradient;
+    }
+    AortaOutlet
+    {
+        type            fixedValue;
+        value           uniform 50;
+    }
+
+    AortaWall
+    {
+        type            zeroGradient;
+    }
+}
+    //Publication also specifies front and back, left, right, lower, upper
+    //walls as type slip; may need to change if does not work
+
+	// ^The above patches do not exist as we have limited the mesh to the aorta not the bounding 		field
+
+
+// ************************************************************************* //
